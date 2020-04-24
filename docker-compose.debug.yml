@@ -1,0 +1,22 @@
+version: '3.7'
+
+services:
+  blog-api:
+    image: 'blog-api:debug'
+    container_name: blog-api-debug
+    build: .docker/debug
+    environment:
+      NODE_ENV: development
+    env_file: 
+      - .env
+    volumes: 
+      - .:/usr/src/app
+    ports:
+      - 3000:3000
+      - 9229:9229
+    networks:
+      - backend
+  
+networks:
+  backend:
+    driver: bridge
