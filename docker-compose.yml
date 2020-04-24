@@ -1,0 +1,21 @@
+version: '3.7'
+
+services:
+  blog-api:
+    image: 'blog-api:dev'
+    container_name: blog-api-dev
+    build: .docker/development
+    environment:
+      NODE_ENV: development
+    env_file: 
+      - .env
+    volumes: 
+      - .:/usr/src/app
+    ports:
+      - 3000:3000
+    networks:
+      - backend
+  
+networks:
+  backend:
+    driver: bridge
