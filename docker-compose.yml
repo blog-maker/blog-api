@@ -20,12 +20,13 @@ services:
       - db
 
   db:
+    image: mongo:3.6
     container_name: blog-api-db
-    build: ./mongo
     volumes:
       - /blog_api_data:/data/db
+      - ./mongo/init-db.d/seed.js:/docker-entrypoint-initdb.d/seed.js
     environment:
-      MONGO_INITDB_DATABASE: blog
+      MONGO_INITDB_DATABASE: ${DB_NAME}
     ports:
       - 27017:27017
     networks:
