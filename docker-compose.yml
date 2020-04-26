@@ -7,15 +7,36 @@ services:
     build: .docker/development
     environment:
       NODE_ENV: development
-    env_file: 
+    env_file:
       - .env
-    volumes: 
+    volumes:
       - .:/usr/src/app
     ports:
       - 3000:3000
     networks:
       - backend
-  
+      - db
+    depends_on:
+      - db
+
+  db:
+    image: mongo:3.6
+    container_name: blog-api-db
+    volumes:
+      - /blog_api_data:/data/db
+      - ./mongo/init-db.d/seed.js:/docker-entrypoint-initdb.d/seed.js
+    environment:
+      MONGO_INITDB_DATABASE: ${DB_NAME}
+    ports:
+      - 27017:27017
+    networks:
+      - db
+
 networks:
   backend:
     driver: bridge
+  db:
+    driver: bridge
+
+volumes:
+  blog_api_data:
