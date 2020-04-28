@@ -1,4 +1,4 @@
-import { Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { Controller, Post, Req, UseGuards, HttpCode } from '@nestjs/common';
 import {
   ApiBody,
   ApiOkResponse,
@@ -15,12 +15,16 @@ import { JsonWebToken } from './dto/json-web-token.dto';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @ApiOperation({ summary: 'authorize', description: 'Generate JWT for Bearer authorization.' })
+  @ApiOperation({
+    summary: 'authorize',
+    description: 'Generate JWT for Bearer authorization.',
+  })
   @ApiBody({ type: AuthorizeDto })
   @ApiOkResponse({ type: JsonWebToken })
   @ApiUnauthorizedResponse()
   @UseGuards(LocalAuthGuard)
   @Post('authorize')
+  @HttpCode(200)
   authorize(@Req() req) {
     return this.authService.login(req.user);
   }
