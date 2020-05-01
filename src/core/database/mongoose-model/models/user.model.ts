@@ -2,8 +2,8 @@ import { ModelDefinition } from '@nestjs/mongoose';
 
 import { UserSchema } from 'src/core/domain/schemas/user.schema';
 
-export const UserModel: ModelDefinition = {
-  name: 'UserModel',
+export const UserMongooseModel: ModelDefinition = {
+  name: 'User',
   schema: UserSchema,
   collection: 'users',
 };

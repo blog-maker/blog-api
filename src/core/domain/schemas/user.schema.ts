@@ -1,4 +1,4 @@
-import validators from 'mongoose-validators';
+import * as validators from 'mongoose-validators';
 
 import { defaultSchema } from './base.schema';
 import {
@@ -9,15 +9,13 @@ import {
   RequiredString,
   OptionalString,
 } from './types';
-import { allowedCharacters } from './validators';
+import { allowedCharacters, AllowedUsernameCharacters } from './validators';
 
 export const UserSchema = defaultSchema({
   username: requiredStringType({
     unique: true,
     trim: true,
-    validate: allowedCharacters(
-      'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@'
-    ),
+    validate: allowedCharacters(AllowedUsernameCharacters),
   }),
   normalizedUserName: RequiredString,
   password: RequiredString,
@@ -26,6 +24,7 @@ export const UserSchema = defaultSchema({
   firstName: requiredStringType({ validate: [validators.isAlphanumeric()] }),
   lastName: requiredStringType({ validate: [validators.isAlphanumeric()] }),
   phoneNumber: OptionalString,
+  admin: optionalBooleanType({ default: false }),
   lockoutEnabled: optionalBooleanType({ default: false }),
   accessFailedCount: optionalNumberType({ default: 0 }),
   lockoutEnd: OptionalDate,
