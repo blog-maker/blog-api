@@ -6,6 +6,7 @@ export const enableSwagger = (app: INestApplication) => {
     .setTitle('Blog Api')
     .setDescription('The API for amazing blogs')
     .setVersion('1.0')
+    .addTag('auth')
     .setContact(
       'Bruno Xavier',
       'https://github.com/brunoSpeedrun',
