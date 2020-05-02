@@ -18,4 +18,8 @@ export class UserRepository {
     const newUser = new this.userModel(userNormalized);
     return newUser.save();
   }
+
+  findByUserName(username: string): Promise<User> {
+    return this.userModel.findOne({ username }).exec();
+  }
 }

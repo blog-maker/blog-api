@@ -16,6 +16,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { UseYupValidation } from 'src/core/validation/use-yup-validation.decorator';
 import { CreateUserSchema } from './dto/validations/create-user-schema';
+import { CreatedUserDto } from './dto/created-user.dto';
 
 @ApiTags('users')
 @Controller('users')
@@ -31,7 +32,7 @@ export class UserController {
     description: 'Create an user',
   })
   @ApiBody({ type: CreateUserDto })
-  @ApiOkResponse({ type: CreateUserDto })
+  @ApiOkResponse({ type: CreatedUserDto })
   @UseYupValidation(CreateUserSchema)
   @Post()
   createUser(@Body() createUser: CreateUserDto) {
