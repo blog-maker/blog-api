@@ -14,9 +14,10 @@ import {
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { UseYupValidation } from 'src/core/validation/use-yup-validation.decorator';
 import { CreateUserSchema } from './dto/validations/create-user-schema';
 import { CreatedUserDto } from './dto/created-user.dto';
+import { AuthenticatedUser } from '../auth/authenticated-user.decorator';
+import { YupValidationPipe } from '../core/validation/yup-validation.pipe';
 
 @ApiTags('users')
 @Controller('users')
@@ -29,13 +30,15 @@ export class UserController {
 
   @ApiOperation({
     summary: 'create user',
-    description: 'Create an user',
+    description: 'Create a user',
   })
   @ApiBody({ type: CreateUserDto })
   @ApiOkResponse({ type: CreatedUserDto })
-  @UseYupValidation(CreateUserSchema)
   @Post()
-  createUser(@Body() createUser: CreateUserDto) {
-    return this.userService.save(createUser);
+  createUser(
+    @AuthenticatedUser() authenticatedUser,
+    @Body(new YupValidationPipe(CreateUserSchema)) createUser: CreateUserDto
+  ) {
+    return this.userService.save(authenticatedUser, createUser);
   }
 }

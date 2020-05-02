@@ -8,17 +8,17 @@ export class AuthService {
   async validateUser(username: string, password: string) {
     //TODO: users validation.
     if (username === 'admin' && password === 'admin') {
-      const user = { username, password };
+      const user = { username, password, admin: false };
       return user;
     }
     return null;
   }
 
   async login(user: any) {
-    const payload = { sub: user.username };
+    const payload = { sub: user.username, admin: user.admin };
     return {
       accessToken: this.jwtService.sign(payload),
-      tokenType: 'bearer',
+      tokenType: 'Bearer',
     };
   }
 }
