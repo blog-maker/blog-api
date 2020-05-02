@@ -14,7 +14,7 @@ import {
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { UseJoiValidation } from 'src/core/validation/use-joi-validation.decorator';
+import { UseYupValidation } from 'src/core/validation/use-yup-validation.decorator';
 import { CreateUserSchema } from './dto/validations/create-user-schema';
 
 @ApiTags('users')
@@ -32,7 +32,7 @@ export class UserController {
   })
   @ApiBody({ type: CreateUserDto })
   @ApiOkResponse({ type: CreateUserDto })
-  @UseJoiValidation(CreateUserSchema)
+  @UseYupValidation(CreateUserSchema)
   @Post()
   createUser(@Body() createUser: CreateUserDto) {
     return this.userService.save(createUser);

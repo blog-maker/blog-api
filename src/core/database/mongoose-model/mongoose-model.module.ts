@@ -35,7 +35,7 @@ export class MongooseModelModule implements DynamicModule {
     return {
       module: MongooseModelModule,
       imports: [MongooseModule.forFeature(models)],
-      exports: [MongooseModule]
+      exports: [MongooseModule],
     };
   }
 }

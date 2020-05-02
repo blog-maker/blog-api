@@ -7,12 +7,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
 
-  save(user: CreateUserDto) {
-    const newUser = {
-      ...user,
-      normalizedUserName: user.username.toUpperCase(),
-      normalizedEmail: user.email.toUpperCase(),
-    };
-    return this.userRepository.save(newUser);
+  save(user: CreateUserDto): Promise<CreateUserDto> {
+    return this.userRepository.save(user);
   }
 }

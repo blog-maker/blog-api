@@ -1,14 +1,12 @@
-import * as Joi from '@hapi/joi';
+import * as yup from 'yup';
 
-export const CreateUserSchema = Joi.object({
-  username: Joi.string().required(),
-  password: Joi.string().required(),
-  email: Joi.string()
+export const CreateUserSchema = yup.object({
+  username: yup.string().required(),
+  password: yup.string().required(),
+  email: yup
+    .string()
     .email()
     .required(),
-  firstName: Joi.string().required(),
-  lastName: Joi.string().required(),
-  phoneNumber: Joi.string().optional(),
-  admin: Joi.boolean().optional(),
-  lockoutEnabled: Joi.boolean().optional()
+  firstName: yup.string().required(),
+  lastName: yup.string().required(),
 });

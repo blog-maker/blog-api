@@ -10,7 +10,12 @@ export class UserRepository {
   constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
 
   save(user: any): Promise<User> {
-    const newUser = new this.userModel(user);
+    const userNormalized = {
+      ...user,
+      normalizedUserName: user.username.toUpperCase(),
+      normalizedEmail: user.email.toUpperCase(),
+    };
+    const newUser = new this.userModel(userNormalized);
     return newUser.save();
   }
 }
