@@ -8,7 +8,7 @@ export class AuthService {
   async validateUser(username: string, password: string) {
     //TODO: users validation.
     if (username === 'admin' && password === 'admin') {
-      const user = { username, password, admin: false };
+      const user = { username, password, admin: true };
       return user;
     }
     return null;

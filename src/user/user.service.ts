@@ -7,11 +7,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
 
-  async save(authenticatedUser: any, user: CreateUserDto) {
-    if (!authenticatedUser.admin) {
-      throw new BadRequestException(`Only administrators can create users`);
-    }
-
+  async save(user: CreateUserDto) {
     const usernameAlreadyExists = await this.userRepository.findByUserName(
       user.username
     );
@@ -23,13 +19,10 @@ export class UserService {
     }
 
     return this.userRepository.save(user).then(u => ({
-      _id: u._id,
       username: u.username,
-      normalizedUsername: u.normalizedUserName,
       firstName: u.firstName,
       lastName: u.lastName,
       email: u.email,
-      normalizedEmail: u.normalizedEmail,
       phoneNumber: u.phoneNumber,
       admin: u.admin,
       lockoutEnabled: u.lockoutEnabled,

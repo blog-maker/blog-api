@@ -2,7 +2,7 @@ import { Controller, Post, Req, UseGuards, HttpCode } from '@nestjs/common';
 import { ApiBody, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { AuthService } from './auth.service';
-import { LocalAuthGuard } from './local-auth.guard';
+import { LocalAuthGuard } from './guards/local-auth.guard';
 import { AuthorizeDto } from './dto/authorize.dto';
 import { JsonWebToken } from './dto/json-web-token.dto';
 import { ApiDefaultInternalServerErrorResponse } from '../core/swagger/decorators';

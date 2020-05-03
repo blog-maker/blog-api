@@ -31,6 +31,7 @@
     "@nestjs/swagger": "^4.5.3",
     "express-rate-limit": "^5.1.1",
     "helmet": "^3.22.0",
+    "http-status-codes": "^1.4.0",
     "mongoose": "^5.9.10",
     "mongoose-validators": "^0.1.0",
     "passport": "^0.4.1",
