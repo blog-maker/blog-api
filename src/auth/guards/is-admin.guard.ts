@@ -1,4 +1,9 @@
-import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { Observable } from 'rxjs';
 
 @Injectable()
@@ -10,7 +15,9 @@ export class IsAdminGuard implements CanActivate {
     const user = request.user;
 
     if (!user?.admin) {
-      throw new UnauthorizedException('Only administrators can handle this feature.');
+      throw new UnauthorizedException(
+        'Only administrators can handle this feature.'
+      );
     }
 
     return true;

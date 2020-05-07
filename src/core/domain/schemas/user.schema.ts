@@ -17,7 +17,7 @@ export const UserSchema = defaultSchema({
     trim: true,
     validate: {
       validator: allowedCharacters(AllowedUsernameCharacters),
-      message: props => `Only letters, numbers,-,. and _ are permitted.`
+      message: props => `Only letters, numbers,-,. and _ are permitted.`,
     },
   }),
   normalizedUserName: RequiredString,

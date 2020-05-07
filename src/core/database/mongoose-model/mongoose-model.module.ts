@@ -14,7 +14,7 @@ export class MongooseModelModule implements DynamicModule {
           useFactory: (configService: ConfigService) => {
             const host = configService.get('database.host');
             const port = configService.get('database.port');
-            const uri = `mongodb://${host}/${port}`;
+            const uri = `mongodb://${host}:${port}`;
             return {
               uri,
               dbName: configService.get('database.name'),
