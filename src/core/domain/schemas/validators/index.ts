@@ -1,5 +1,5 @@
 export const allowedCharacters = (characters: string) => (value: string) => {
-  return characters.split('').some(c => value.indexOf(c) < 0);
+  return value.split('').every(c => characters.indexOf(c) >= 0);
 };
 
 export const AllowedUsernameCharacters =

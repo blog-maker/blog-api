@@ -15,7 +15,10 @@ export const UserSchema = defaultSchema({
   username: requiredStringType({
     unique: true,
     trim: true,
-    validate: allowedCharacters(AllowedUsernameCharacters),
+    validate: {
+      validator: allowedCharacters(AllowedUsernameCharacters),
+      message: props => `Only letters, numbers,-,. and _ are permitted.`
+    },
   }),
   normalizedUserName: RequiredString,
   password: RequiredString,
