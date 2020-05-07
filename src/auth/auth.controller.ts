@@ -1,22 +1,15 @@
 import { Controller, Post, Req, UseGuards, HttpCode } from '@nestjs/common';
-import {
-  ApiBody,
-  ApiOkResponse,
-  ApiUnauthorizedResponse,
-  ApiOperation,
-  ApiInternalServerErrorResponse,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiBody, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
-import { ProblemDetails } from '../core/problem-details/problem-details.interface';
 import { AuthService } from './auth.service';
-import { LocalAuthGuard } from './local-auth.guard';
+import { LocalAuthGuard } from './guards/local-auth.guard';
 import { AuthorizeDto } from './dto/authorize.dto';
 import { JsonWebToken } from './dto/json-web-token.dto';
+import { ApiDefaultInternalServerErrorResponse } from '../core/swagger/decorators';
 
 @ApiTags('auth')
 @Controller('auth')
-@ApiInternalServerErrorResponse({ type: ProblemDetails })
+@ApiDefaultInternalServerErrorResponse()
 export class AuthController {
   constructor(private authService: AuthService) {}
 
@@ -26,7 +19,6 @@ export class AuthController {
   })
   @ApiBody({ type: AuthorizeDto })
   @ApiOkResponse({ type: JsonWebToken })
-  @ApiUnauthorizedResponse({ type: ProblemDetails })
   @UseGuards(LocalAuthGuard)
   @Post('authorize')
   @HttpCode(200)

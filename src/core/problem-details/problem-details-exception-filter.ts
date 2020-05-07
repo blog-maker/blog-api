@@ -3,8 +3,10 @@ import {
   ExceptionFilter,
   ArgumentsHost,
   HttpException,
-  HttpStatus,
 } from '@nestjs/common';
+
+import * as HttpStatus from 'http-status-codes';
+
 import { ProblemDetails } from './problem-details.interface';
 
 function httpExceptionToProblemDetails(
@@ -13,11 +15,13 @@ function httpExceptionToProblemDetails(
 ): ProblemDetails {
   const status = exception.getStatus();
   const { message } = exception;
+  const title = HttpStatus.getStatusText(status);
 
   const problemDetails = {
     type: `https://httpstatuses.com/${status}`,
-    title: message,
     status,
+    title,
+    details: message,
     instance: request.url,
   };
 
@@ -29,7 +33,7 @@ function exceptionToProblemDetails(
   request: any
 ): ProblemDetails {
   const status = HttpStatus.INTERNAL_SERVER_ERROR;
-  const title = 'Internal Server Error';
+  const title = HttpStatus.getStatusText(status);
 
   const problemDetails = {
     type: `https://httpstatuses.com/${status}`,
