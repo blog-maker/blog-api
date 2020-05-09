@@ -1,4 +1,5 @@
 export interface EntityBase {
+  readonly isActive: boolean;
   readonly customAttributes: [
     {
       name: string;

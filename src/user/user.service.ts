@@ -1,9 +1,9 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 
 import { UserRepository } from './user.repository';
 import { CreateUserDto } from './dto/create-user.dto';
 import { BCryptService } from '../core/services/bcrypt.service';
-import { UsernameAlreadyExistsException } from '../core/exceptions/username-already-exists.exception';
+import { UsernameAlreadyExistsException } from './exceptions/username-already-exists.exception';
 
 @Injectable()
 export class UserService {
@@ -34,5 +34,9 @@ export class UserService {
         admin: u.admin,
         lockoutEnabled: u.lockoutEnabled,
       }));
+  }
+
+  findByUserName(username: string) {
+    return this.userRepository.findByUserName(username);
   }
 }
