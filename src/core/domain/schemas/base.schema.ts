@@ -6,6 +6,7 @@ export function defaultSchema(definition: SchemaDefinition) {
     isActive: requiredBooleanType({ default: true }),
     customAttributes: [
       {
+        _id: false,
         name: RequiredString,
         value: RequiredString,
       },
