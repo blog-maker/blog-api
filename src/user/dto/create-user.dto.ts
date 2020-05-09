@@ -6,4 +6,7 @@ export class CreateUserDto extends OmitType(UserDto, [
   'lockoutEnd',
   'normalizedEmail',
   'normalizedUserName',
+  'isActive',
+  'createdAt',
+  'updatedAt',
 ]) {}

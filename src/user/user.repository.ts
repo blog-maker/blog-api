@@ -19,7 +19,7 @@ export class UserRepository {
     return newUser.save();
   }
 
-  findByUserName(username: string): Promise<User> {
-    return this.userModel.findOne({ username }).exec();
+  findByUserName(username: string, inactive?: boolean): Promise<User> {
+    return this.userModel.findOne({ username, isActive: !inactive }).exec();
   }
 }

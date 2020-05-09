@@ -1,15 +1,18 @@
-import { Controller, Post, Body, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Get } from '@nestjs/common';
 import {
   ApiTags,
   ApiOperation,
   ApiBody,
   ApiOkResponse,
   ApiBearerAuth,
+  ApiParam,
 } from '@nestjs/swagger';
 
 import {
   ApiDefaultInternalServerErrorResponse,
   ApiDefaultUnauthorizedResponse,
+  ApiDefaultConflictResponse,
+  ApiDefaultNotFoundResponse,
 } from '../core/swagger/decorators';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -17,6 +20,9 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreateUserSchema } from './dto/validations/create-user-schema';
 import { YupValidationPipe } from '../core/validation/yup-validation.pipe';
 import { IsAdminGuard } from '../auth/guards/is-admin.guard';
+import { UserByUsernameGuard } from './guards/user-by-username.guard';
+import { UserByUsername } from './decorators/user-by-username.decorator';
+import { UserByUserNameDto } from './dto/user-by-username.dto';
 
 @ApiTags('users')
 @Controller('users')
@@ -33,10 +39,24 @@ export class UserController {
   })
   @ApiBody({ type: CreateUserDto })
   @ApiOkResponse({ type: CreateUserDto })
+  @ApiDefaultConflictResponse()
   @Post()
   createUser(
     @Body(new YupValidationPipe(CreateUserSchema)) createUser: CreateUserDto
   ) {
     return this.userService.save(createUser);
+  }
+
+  @ApiOperation({
+    summary: 'get user by username',
+    description: 'Get user by specified username',
+  })
+  @ApiOkResponse({ type: UserByUserNameDto })
+  @ApiDefaultNotFoundResponse()
+  @Get(':username')
+  @ApiParam({ name: 'username', type: String })
+  @UseGuards(UserByUsernameGuard)
+  getUserByUserName(@UserByUsername() user: UserByUserNameDto) {
+    return user;
   }
 }
