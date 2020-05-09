@@ -1,4 +1,13 @@
-import { Controller, Post, Body, UseGuards, Get } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  UseGuards,
+  Get,
+  Patch,
+  HttpCode,
+  HttpStatus,
+} from '@nestjs/common';
 import {
   ApiTags,
   ApiOperation,
@@ -6,6 +15,7 @@ import {
   ApiOkResponse,
   ApiBearerAuth,
   ApiParam,
+  ApiNoContentResponse,
 } from '@nestjs/swagger';
 
 import {
@@ -58,5 +68,19 @@ export class UserController {
   @UseGuards(UserByUsernameGuard)
   getUserByUserName(@UserByUsername() user: UserByUserNameDto) {
     return user;
+  }
+
+  @ApiOperation({
+    summary: 'activate user',
+    description: 'Activate a user',
+  })
+  @ApiNoContentResponse({ description: 'User activated with success.'})
+  @ApiDefaultNotFoundResponse()
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Patch(':username/activate')
+  @ApiParam({ name: 'username', type: String })
+  @UseGuards(UserByUsernameGuard)
+  async activateUser(@UserByUsername() user: UserByUserNameDto) {
+    await this.userService.activate(user._id);
   }
 }

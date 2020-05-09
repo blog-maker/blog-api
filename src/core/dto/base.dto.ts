@@ -10,6 +10,9 @@ export class CustomAttributeDto {
 
 export class BaseDto {
   @ApiProperty()
+  _id: string;
+
+  @ApiProperty()
   isActive: boolean;
 
   @ApiPropertyOptional({ type: [CustomAttributeDto] })
