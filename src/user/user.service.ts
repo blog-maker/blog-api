@@ -3,6 +3,7 @@ import { Injectable, BadRequestException } from '@nestjs/common';
 import { UserRepository } from './user.repository';
 import { CreateUserDto } from './dto/create-user.dto';
 import { BCryptService } from '../core/services/bcrypt.service';
+import { UsernameAlreadyExistsException } from '../core/exceptions/username-already-exists.exception';
 
 @Injectable()
 export class UserService {
@@ -17,9 +18,7 @@ export class UserService {
     );
 
     if (usernameAlreadyExists) {
-      throw new BadRequestException(
-        `username (${user.username}) already exists.`
-      );
+      throw new UsernameAlreadyExistsException(user.username);
     }
 
     const passwordHash = await this.bcryptService.hash(user.password);
