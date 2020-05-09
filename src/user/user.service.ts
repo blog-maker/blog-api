@@ -45,4 +45,8 @@ export class UserService {
   activate(_id: string) {
     return this.userRepository.updateById(_id, { isActive: true });
   }
+
+  deactivate(_id: string) {
+    return this.userRepository.updateById(_id, { isActive: false });
+  }
 }

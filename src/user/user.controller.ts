@@ -83,4 +83,18 @@ export class UserController {
   async activateUser(@UserByUsername() user: UserByUserNameDto) {
     await this.userService.activate(user._id);
   }
+
+  @ApiOperation({
+    summary: 'deactivate user',
+    description: 'deactivate a user',
+  })
+  @ApiNoContentResponse({ description: 'User deactivated with success.'})
+  @ApiDefaultNotFoundResponse()
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Patch(':username/deactivate')
+  @ApiParam({ name: 'username', type: String })
+  @UseGuards(UserByUsernameGuard)
+  async deactivateUser(@UserByUsername() user: UserByUserNameDto) {
+    await this.userService.deactivate(user._id);
+  }
 }
