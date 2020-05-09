@@ -36,7 +36,7 @@ export class UserService {
       }));
   }
 
-  findByUserName(username: string, inactive?: boolean) {
-    return this.userRepository.findByUserName(username, inactive);
+  findByUserName(username: string) {
+    return this.userRepository.findByUserName(username);
   }
 }
