@@ -34,11 +34,19 @@ export class UserService {
         admin: u.admin,
         lockoutEnabled: u.lockoutEnabled,
         customAttributes: u.customAttributes,
-        extensionsAttributes: u.extensionsAttributes
+        extensionsAttributes: u.extensionsAttributes,
       }));
   }
 
   findByUserName(username: string) {
     return this.userRepository.findByUserName(username);
+  }
+
+  activate(_id: string) {
+    return this.userRepository.updateById(_id, { isActive: true });
+  }
+
+  deactivate(_id: string) {
+    return this.userRepository.updateById(_id, { isActive: false });
   }
 }

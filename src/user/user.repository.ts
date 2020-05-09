@@ -22,4 +22,8 @@ export class UserRepository {
   findByUserName(username: string): Promise<User> {
     return this.userModel.findOne({ username }).exec();
   }
+
+  updateById(_id: string, user: any) {
+    return this.userModel.findByIdAndUpdate(_id, user, { new: true });
+  }
 }
