@@ -29,13 +29,4 @@ export class UserDto extends PartialType(BaseDto) {
 
   @ApiProperty()
   admin: boolean;
-
-  @ApiPropertyOptional()
-  lockoutEnabled: boolean;
-
-  @ApiPropertyOptional()
-  accessFailedCount: number;
-
-  @ApiPropertyOptional()
-  lockoutEnd: Date;
 }

@@ -3,9 +3,7 @@ import * as validators from 'mongoose-validators';
 import { defaultSchema } from './base.schema';
 import {
   requiredStringType,
-  optionalNumberType,
   optionalBooleanType,
-  OptionalDate,
   RequiredString,
   OptionalString,
 } from './types';
@@ -28,7 +26,4 @@ export const UserSchema = defaultSchema({
   lastName: requiredStringType({ validate: [validators.isAlphanumeric()] }),
   phoneNumber: OptionalString,
   admin: optionalBooleanType({ default: false }),
-  lockoutEnabled: optionalBooleanType({ default: false }),
-  accessFailedCount: optionalNumberType({ default: 0 }),
-  lockoutEnd: OptionalDate,
 });

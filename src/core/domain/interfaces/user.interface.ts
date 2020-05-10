@@ -12,7 +12,4 @@ export interface User extends Document, EntityBase {
   readonly lastName: string;
   readonly phoneNumber: string;
   readonly admin: boolean;
-  readonly lockoutEnabled: boolean;
-  readonly accessFailedCount: number;
-  readonly lockoutEnd: Date;
 }

@@ -19,11 +19,7 @@ export class UserByUsernameGuard implements CanActivate {
     const {
       _id,
       admin,
-      lockoutEnabled,
-      accessFailedCount,
-      lockoutEnd,
       isActive,
-      username: userName,
       firstName,
       lastName,
       email,
@@ -37,7 +33,7 @@ export class UserByUsernameGuard implements CanActivate {
 
     request.userByUsername = {
       _id,
-      userName,
+      username,
       email,
       firstName,
       lastName,
@@ -45,9 +41,6 @@ export class UserByUsernameGuard implements CanActivate {
       isActive,
       normalizedEmail,
       normalizedUserName,
-      lockoutEnabled,
-      accessFailedCount,
-      lockoutEnd,
       customAttributes,
       extensionsAttributes,
       createdAt,

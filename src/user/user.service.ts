@@ -33,9 +33,8 @@ export class UserService {
         email: u.email,
         phoneNumber: u.phoneNumber,
         admin: u.admin,
-        lockoutEnabled: u.lockoutEnabled,
-        customAttributes: u.customAttributes,
-        extensionsAttributes: u.extensionsAttributes,
+        customAttributes: u?.customAttributes,
+        extensionsAttributes: u?.extensionsAttributes,
       }));
   }
 
