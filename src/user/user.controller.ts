@@ -33,6 +33,9 @@ import { IsAdminGuard } from '../auth/guards/is-admin.guard';
 import { UserByUsernameGuard } from './guards/user-by-username.guard';
 import { UserByUsername } from './decorators/user-by-username.decorator';
 import { UserByUserNameDto } from './dto/user-by-username.dto';
+import { AuthenticatedUser } from 'src/auth/authenticated-user.decorator';
+import { ChangePasswordDto } from './dto/change-password.dto';
+import { ChangePasswordSchema } from './dto/validations/change-password-schema';
 
 @ApiTags('users')
 @Controller('users')
@@ -71,10 +74,29 @@ export class UserController {
   }
 
   @ApiOperation({
+    summary: 'change passowrd',
+    description: 'Change password from the logged user.',
+  })
+  @ApiBody({ type: ChangePasswordDto })
+  @ApiNoContentResponse({ description: 'Password changed with success.' })
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Patch('mine/change-password')
+  async changePassword(
+    @Body(new YupValidationPipe(ChangePasswordSchema))
+    changePassword: ChangePasswordDto,
+    @AuthenticatedUser() authenticatedUser: any
+  ) {
+    await this.userService.changePassword(
+      changePassword,
+      authenticatedUser.username
+    );
+  }
+
+  @ApiOperation({
     summary: 'activate user',
     description: 'Activate a user',
   })
-  @ApiNoContentResponse({ description: 'User activated with success.'})
+  @ApiNoContentResponse({ description: 'User activated with success.' })
   @ApiDefaultNotFoundResponse()
   @HttpCode(HttpStatus.NO_CONTENT)
   @Patch(':username/activate')
@@ -88,7 +110,7 @@ export class UserController {
     summary: 'deactivate user',
     description: 'deactivate a user',
   })
-  @ApiNoContentResponse({ description: 'User deactivated with success.'})
+  @ApiNoContentResponse({ description: 'User deactivated with success.' })
   @ApiDefaultNotFoundResponse()
   @HttpCode(HttpStatus.NO_CONTENT)
   @Patch(':username/deactivate')
