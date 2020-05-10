@@ -1,9 +1,7 @@
 import * as yup from 'yup';
 
 export const ChangePasswordSchema = yup.object().shape({
-  currentPassword: yup
-    .string()
-    .required(),
+  currentPassword: yup.string().required(),
   newPassword: yup
     .string()
     .required()
