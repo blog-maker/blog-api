@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 
 import { UserRepository } from './user.repository';
 import { CreateUserDto } from './dto/create-user.dto';
 import { BCryptService } from '../core/services/bcrypt.service';
 import { UsernameAlreadyExistsException } from './exceptions/username-already-exists.exception';
+import { ChangePasswordDto } from './dto/change-password.dto';
 
 @Injectable()
 export class UserService {
@@ -43,10 +44,31 @@ export class UserService {
   }
 
   activate(_id: string) {
-    return this.userRepository.updateById(_id, { isActive: true });
+    return this.userRepository.findByIdAndUpdate(_id, { isActive: true });
   }
 
   deactivate(_id: string) {
-    return this.userRepository.updateById(_id, { isActive: false });
+    return this.userRepository.findByIdAndUpdate(_id, { isActive: false });
+  }
+
+  async changePassword(changePasswordDto: ChangePasswordDto, username: string) {
+    const user = await this.findByUserName(username);
+
+    const passwordsMatch = await this.bcryptService.compare(
+      changePasswordDto.currentPassword,
+      user.password
+    );
+
+    if (!passwordsMatch) {
+      throw new BadRequestException('Current and user passwords do not match.');
+    }
+
+    const newPasswordHash = this.bcryptService.hash(
+      changePasswordDto.newPassword
+    );
+
+    return this.userRepository.findByIdAndUpdate(user._id, {
+      password: newPasswordHash,
+    });
   }
 }
