@@ -1,4 +1,9 @@
-import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
+import {
+  Module,
+  NestModule,
+  MiddlewareConsumer,
+  RequestMethod,
+} from '@nestjs/common';
 
 import { AuthModule } from './auth/auth.module';
 import { BlogConfigModule } from './blog-config/blog-config.module';
@@ -11,6 +16,8 @@ import { RedirectSwaggerMiddleware } from './redirect-swagger.middleware';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(RedirectSwaggerMiddleware).forRoutes('');
+    consumer
+      .apply(RedirectSwaggerMiddleware)
+      .forRoutes({ path: '/', method: RequestMethod.GET });
   }
 }

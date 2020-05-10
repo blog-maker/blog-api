@@ -16,10 +16,10 @@ export class BaseDto {
   isActive: boolean;
 
   @ApiPropertyOptional({ type: [CustomAttributeDto] })
-  customAttributes: [CustomAttributeDto];
+  customAttributes?: [CustomAttributeDto];
 
   @ApiPropertyOptional()
-  extensionsAttributes: any;
+  extensionsAttributes?: any;
 
   @ApiPropertyOptional()
   createdAt: Date;
