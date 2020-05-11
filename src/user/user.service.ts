@@ -2,14 +2,14 @@ import { Injectable, BadRequestException } from '@nestjs/common';
 
 import { UserRepository } from './user.repository';
 import { CreateUserDto } from './dto/create-user.dto';
-import { BCryptService } from '../core/services/bcrypt.service';
+import { PasswordHashService } from '../core/services/password-hash.service';
 import { UsernameAlreadyExistsException } from './exceptions/username-already-exists.exception';
 import { ChangePasswordDto } from './dto/change-password.dto';
 
 @Injectable()
 export class UserService {
   constructor(
-    private readonly bcryptService: BCryptService,
+    private readonly bcryptService: PasswordHashService,
     private readonly userRepository: UserRepository
   ) {}
 

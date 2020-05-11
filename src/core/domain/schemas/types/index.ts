@@ -8,6 +8,7 @@ export const OptionalDate = { type: Date };
 
 export const RequiredString = { type: String, required: true };
 export const RequiredBoolean = { type: Boolean, required: true };
+export const RequiredNumber = { type: Number, required: true };
 
 export const optionalNumberType = (options?: SchemaTypeOpts<any>) => ({
   ...OptionalNumber,
@@ -28,5 +29,9 @@ export const requiredStringType = (options?: SchemaTypeOpts<any>) => ({
 });
 export const requiredBooleanType = (options?: SchemaTypeOpts<any>) => ({
   ...RequiredBoolean,
+  ...options,
+});
+export const requiredNumberType = (options?: SchemaTypeOpts<any>) => ({
+  ...RequiredNumber,
   ...options,
 });
