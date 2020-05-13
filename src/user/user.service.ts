@@ -9,7 +9,7 @@ import { ChangePasswordDto } from './dto/change-password.dto';
 @Injectable()
 export class UserService {
   constructor(
-    private readonly bcryptService: PasswordHashService,
+    private readonly passwordHashService: PasswordHashService,
     private readonly userRepository: UserRepository
   ) {}
 
@@ -22,10 +22,10 @@ export class UserService {
       throw new UsernameAlreadyExistsException(user.username);
     }
 
-    const passwordHash = await this.bcryptService.hash(user.password);
+    const passwordData = this.passwordHashService.hash(user.password);
 
     return this.userRepository
-      .save({ ...user, password: passwordHash })
+      .save({ ...user, password: passwordData, superuser: false })
       .then(u => ({
         username: u.username,
         firstName: u.firstName,
@@ -38,8 +38,23 @@ export class UserService {
       }));
   }
 
+  async createSuperUserIfNotExists(superUser: any) {
+    const su = await this.userRepository.findOne({ superuser: true });
+
+    if (su) {
+      return;
+    }
+
+    const passwordData = this.passwordHashService.hash(superUser.password);
+    await this.userRepository.save({ ...superUser, password: passwordData });
+  }
+
   findByUserName(username: string) {
     return this.userRepository.findByUserName(username);
+  }
+
+  findOne(query: any) {
+    return this.userRepository.findOne(query);
   }
 
   activate(_id: string) {
@@ -53,7 +68,7 @@ export class UserService {
   async changePassword(changePasswordDto: ChangePasswordDto, username: string) {
     const user = await this.findByUserName(username);
 
-    const passwordsMatch = await this.bcryptService.compare(
+    const passwordsMatch = await this.passwordHashService.compare(
       changePasswordDto.currentPassword,
       user.password
     );
@@ -62,7 +77,7 @@ export class UserService {
       throw new BadRequestException('Current and user passwords do not match.');
     }
 
-    const newPasswordHash = this.bcryptService.hash(
+    const newPasswordHash = this.passwordHashService.hash(
       changePasswordDto.newPassword
     );
 

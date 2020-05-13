@@ -10,6 +10,7 @@ import { PasswordHashService } from '../core/services/password-hash.service';
 @Module({
   imports: [MongooseModelModule.forFeature([UserMongooseModel])],
   providers: [UserService, UserRepository, PasswordHashService],
+  exports: [UserService, UserRepository],
   controllers: [UserController],
 })
 export class UserModule {}
