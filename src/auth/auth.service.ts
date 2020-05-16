@@ -15,7 +15,7 @@ export class AuthService {
   async validateUser(username: string, password: string) {
     const user = await this.userService.findByUserName(username);
 
-    if (!user) {
+    if (!user || !user?.isActive) {
       return null;
     }
 
