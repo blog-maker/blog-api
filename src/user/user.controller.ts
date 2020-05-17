@@ -7,6 +7,7 @@ import {
   Patch,
   HttpCode,
   HttpStatus,
+  Delete,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -30,13 +31,16 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreateUserSchema } from './dto/validations/create-user-schema';
 import { YupValidationPipe } from '../core/validation/yup-validation.pipe';
 import { IsAdminGuard } from '../auth/guards/is-admin.guard';
-import { UserByUsernameGuard } from './guards/user-by-username.guard';
 import { UserByUsername } from './decorators/user-by-username.decorator';
 import { UserByUserNameDto } from './dto/user-by-username.dto';
 import { AuthenticatedUser } from '../auth/authenticated-user.decorator';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { ChangePasswordSchema } from './dto/validations/change-password-schema';
-import { CanActivateDeactivateUserGuard } from './guards/can-activate-deactivate-user.guard';
+import {
+  UserByUsernameGuard,
+  CanActivateDeactivateUserGuard,
+  CanRemoveUserGuard,
+} from './guards';
 
 @ApiTags('users')
 @Controller('users')
@@ -125,5 +129,22 @@ export class UserController {
     user: UserByUserNameDto
   ) {
     await this.userService.deactivate(user._id);
+  }
+
+  @ApiOperation({
+    summary: 'remove user',
+    description: 'Remove a user',
+  })
+  @ApiNoContentResponse({ description: 'User removed with success.' })
+  @ApiDefaultNotFoundResponse()
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Delete(':username')
+  @ApiParam({ name: 'username', type: String })
+  @UseGuards(UserByUsernameGuard, CanRemoveUserGuard)
+  async removeUser(
+    @UserByUsername()
+    user: UserByUserNameDto
+  ) {
+    await this.userService.removeById(user._id);
   }
 }

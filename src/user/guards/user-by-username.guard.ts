@@ -29,6 +29,7 @@ export class UserByUsernameGuard implements CanActivate {
       createdAt,
       updatedAt,
       extensionsAttributes,
+      superuser
     } = user;
 
     request.userByUsername = {
@@ -38,6 +39,7 @@ export class UserByUsernameGuard implements CanActivate {
       firstName,
       lastName,
       admin,
+      superuser,
       isActive,
       normalizedEmail,
       normalizedUserName,

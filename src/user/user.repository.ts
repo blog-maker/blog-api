@@ -30,4 +30,8 @@ export class UserRepository {
   findByIdAndUpdate(_id: string, user: any) {
     return this.userModel.findByIdAndUpdate(_id, user, { new: true });
   }
+
+  findByIdAndRemove(_id: string) {
+    return this.userModel.findByIdAndRemove(_id);
+  }
 }

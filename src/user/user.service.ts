@@ -85,4 +85,8 @@ export class UserService {
       password: newPasswordHash,
     });
   }
+
+  removeById(_id: string) {
+    return this.userRepository.findByIdAndRemove(_id);
+  }
 }
