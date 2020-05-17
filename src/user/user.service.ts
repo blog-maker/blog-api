@@ -68,7 +68,7 @@ export class UserService {
   async changePassword(changePasswordDto: ChangePasswordDto, username: string) {
     const user = await this.findByUserName(username);
 
-    const passwordsMatch = await this.passwordHashService.compare(
+    const passwordsMatch = this.passwordHashService.compare(
       changePasswordDto.currentPassword,
       user.password
     );

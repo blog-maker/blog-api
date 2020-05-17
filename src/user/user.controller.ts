@@ -33,10 +33,10 @@ import { IsAdminGuard } from '../auth/guards/is-admin.guard';
 import { UserByUsernameGuard } from './guards/user-by-username.guard';
 import { UserByUsername } from './decorators/user-by-username.decorator';
 import { UserByUserNameDto } from './dto/user-by-username.dto';
-import { AuthenticatedUser } from 'src/auth/authenticated-user.decorator';
+import { AuthenticatedUser } from '../auth/authenticated-user.decorator';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { ChangePasswordSchema } from './dto/validations/change-password-schema';
-import { NotAdminSchema } from './dto/validations/not-admin.schema';
+import { CanActivateDeactivateUserGuard } from './guards/can-activate-deactivate-user.guard';
 
 @ApiTags('users')
 @Controller('users')
@@ -102,9 +102,9 @@ export class UserController {
   @HttpCode(HttpStatus.NO_CONTENT)
   @Patch(':username/activate')
   @ApiParam({ name: 'username', type: String })
-  @UseGuards(UserByUsernameGuard)
+  @UseGuards(UserByUsernameGuard, CanActivateDeactivateUserGuard)
   async activateUser(
-    @UserByUsername(new YupValidationPipe(NotAdminSchema))
+    @UserByUsername()
     user: UserByUserNameDto
   ) {
     await this.userService.activate(user._id);
@@ -119,9 +119,9 @@ export class UserController {
   @HttpCode(HttpStatus.NO_CONTENT)
   @Patch(':username/deactivate')
   @ApiParam({ name: 'username', type: String })
-  @UseGuards(UserByUsernameGuard)
+  @UseGuards(UserByUsernameGuard, CanActivateDeactivateUserGuard)
   async deactivateUser(
-    @UserByUsername(new YupValidationPipe(NotAdminSchema))
+    @UserByUsername()
     user: UserByUserNameDto
   ) {
     await this.userService.deactivate(user._id);
