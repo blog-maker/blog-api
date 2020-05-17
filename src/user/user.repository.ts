@@ -23,6 +23,10 @@ export class UserRepository {
     return this.userModel.findOne({ username }).exec();
   }
 
+  findOne(query: any) {
+    return this.userModel.findOne(query).exec();
+  }
+
   findByIdAndUpdate(_id: string, user: any) {
     return this.userModel.findByIdAndUpdate(_id, user, { new: true });
   }

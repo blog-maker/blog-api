@@ -36,6 +36,7 @@ import { UserByUserNameDto } from './dto/user-by-username.dto';
 import { AuthenticatedUser } from 'src/auth/authenticated-user.decorator';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { ChangePasswordSchema } from './dto/validations/change-password-schema';
+import { NotAdminSchema } from './dto/validations/not-admin.schema';
 
 @ApiTags('users')
 @Controller('users')
@@ -102,7 +103,10 @@ export class UserController {
   @Patch(':username/activate')
   @ApiParam({ name: 'username', type: String })
   @UseGuards(UserByUsernameGuard)
-  async activateUser(@UserByUsername() user: UserByUserNameDto) {
+  async activateUser(
+    @UserByUsername(new YupValidationPipe(NotAdminSchema))
+    user: UserByUserNameDto
+  ) {
     await this.userService.activate(user._id);
   }
 
@@ -116,7 +120,10 @@ export class UserController {
   @Patch(':username/deactivate')
   @ApiParam({ name: 'username', type: String })
   @UseGuards(UserByUsernameGuard)
-  async deactivateUser(@UserByUsername() user: UserByUserNameDto) {
+  async deactivateUser(
+    @UserByUsername(new YupValidationPipe(NotAdminSchema))
+    user: UserByUserNameDto
+  ) {
     await this.userService.deactivate(user._id);
   }
 }
