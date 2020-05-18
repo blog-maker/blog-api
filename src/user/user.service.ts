@@ -1,10 +1,13 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  UnauthorizedException,
+} from '@nestjs/common';
 
 import { UserRepository } from './user.repository';
-import { CreateUserDto } from './dto/create-user.dto';
 import { PasswordHashService } from '../core/services/password-hash.service';
 import { UsernameAlreadyExistsException } from './exceptions/username-already-exists.exception';
-import { ChangePasswordDto } from './dto/change-password.dto';
+import { CreateUserDto, ChangePasswordDto } from './dto';
 
 @Injectable()
 export class UserService {
@@ -88,5 +91,23 @@ export class UserService {
 
   removeById(_id: string) {
     return this.userRepository.findByIdAndRemove(_id);
+  }
+
+  async update(_id: string, updateUser: any) {
+    return this.userRepository
+      .findByIdAndUpdate(_id, {
+        ...updateUser,
+        superuser: false,
+      })
+      .then(u => ({
+        username: u.username,
+        firstName: u.firstName,
+        lastName: u.lastName,
+        email: u.email,
+        phoneNumber: u.phoneNumber,
+        admin: u.admin,
+        customAttributes: u?.customAttributes,
+        extensionsAttributes: u?.extensionsAttributes,
+      }));
   }
 }

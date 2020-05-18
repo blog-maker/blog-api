@@ -8,6 +8,7 @@ import {
   HttpCode,
   HttpStatus,
   Delete,
+  Put,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -26,21 +27,25 @@ import {
   ApiDefaultNotFoundResponse,
 } from '../core/swagger/decorators';
 import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreateUserSchema } from './dto/validations/create-user-schema';
 import { YupValidationPipe } from '../core/validation/yup-validation.pipe';
 import { IsAdminGuard } from '../auth/guards/is-admin.guard';
 import { UserByUsername } from './decorators/user-by-username.decorator';
-import { UserByUserNameDto } from './dto/user-by-username.dto';
 import { AuthenticatedUser } from '../auth/authenticated-user.decorator';
-import { ChangePasswordDto } from './dto/change-password.dto';
 import { ChangePasswordSchema } from './dto/validations/change-password-schema';
 import {
   UserByUsernameGuard,
   CanActivateDeactivateUserGuard,
   CanRemoveUserGuard,
+  CanUpdateUserGuard,
 } from './guards';
+import {
+  UpdateUserDto,
+  CreateUserDto,
+  UserByUserNameDto,
+  ChangePasswordDto,
+} from './dto';
 
 @ApiTags('users')
 @Controller('users')
@@ -129,6 +134,23 @@ export class UserController {
     user: UserByUserNameDto
   ) {
     await this.userService.deactivate(user._id);
+  }
+
+  @ApiOperation({
+    summary: 'update user',
+    description: 'Update a user',
+  })
+  @ApiBody({ type: UpdateUserDto })
+  @ApiOkResponse({ type: UpdateUserDto })
+  @ApiDefaultNotFoundResponse()
+  @Put(':username')
+  @ApiParam({ name: 'username', type: String })
+  @UseGuards(UserByUsernameGuard, CanUpdateUserGuard)
+  updateUser(
+    @UserByUsername() user: UserByUserNameDto,
+    @Body() updateUser: UpdateUserDto
+  ) {
+    return this.userService.update(user._id, updateUser);
   }
 
   @ApiOperation({

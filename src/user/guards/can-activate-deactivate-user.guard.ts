@@ -6,11 +6,8 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 
-import { UserService } from '../user.service';
-
 @Injectable()
 export class CanActivateDeactivateUserGuard implements CanActivate {
-  constructor(private readonly userService: UserService) {}
 
   async canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest();
