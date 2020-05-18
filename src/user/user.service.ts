@@ -97,7 +97,6 @@ export class UserService {
     return this.userRepository
       .findByIdAndUpdate(_id, {
         ...updateUser,
-        superuser: false,
       })
       .then(u => ({
         username: u.username,
