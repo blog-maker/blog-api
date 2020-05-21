@@ -5,10 +5,10 @@ import {
   UnauthorizedException,
   BadRequestException,
 } from '@nestjs/common';
+import { RequiresSuperuserException } from '../../core/exceptions';
 
 @Injectable()
 export class CanRemoveUserGuard implements CanActivate {
-
   async canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest();
     const authenticatedUser = request.user;
@@ -19,7 +19,7 @@ export class CanRemoveUserGuard implements CanActivate {
     }
 
     if (userByUsername.admin && !authenticatedUser?.superuser) {
-      throw new UnauthorizedException('This action requires superuser.');
+      throw new RequiresSuperuserException();
     }
 
     return true;

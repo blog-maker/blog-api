@@ -1,4 +1,9 @@
-export interface EntityBase {
+export interface Timestamp {
+  readonly createdAt: Date;
+  readonly updatedAt: Date;
+}
+
+export interface EntityBase extends Timestamp {
   readonly isActive: boolean;
   readonly customAttributes: [
     {
@@ -7,6 +12,4 @@ export interface EntityBase {
     }
   ];
   readonly extensionsAttributes: any;
-  readonly createdAt: Date;
-  readonly updatedAt: Date;
 }

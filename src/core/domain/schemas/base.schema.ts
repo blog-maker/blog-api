@@ -1,7 +1,12 @@
 import { SchemaDefinition, Schema } from 'mongoose';
+
 import { RequiredString, OptionalObject, requiredBooleanType } from './types';
 
 export function defaultSchema(definition: SchemaDefinition) {
+  return new Schema(definition, { timestamps: true });
+}
+
+export function customSchema(definition: SchemaDefinition) {
   const aditionalSchema = {
     isActive: requiredBooleanType({ default: true }),
     customAttributes: [
@@ -14,5 +19,5 @@ export function defaultSchema(definition: SchemaDefinition) {
     extensionsAttributes: OptionalObject,
   };
   const schema = { ...definition, ...aditionalSchema };
-  return new Schema(schema, { timestamps: true });
+  return defaultSchema(schema);
 }

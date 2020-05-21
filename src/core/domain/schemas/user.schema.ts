@@ -1,6 +1,6 @@
 import * as validators from 'mongoose-validators';
 
-import { defaultSchema } from './base.schema';
+import { customSchema } from './base.schema';
 import {
   requiredStringType,
   optionalBooleanType,
@@ -10,7 +10,7 @@ import {
 } from './types';
 import { allowedCharacters, AllowedUsernameCharacters } from './validators';
 
-export const UserSchema = defaultSchema({
+export const UserSchema = customSchema({
   username: requiredStringType({
     unique: true,
     trim: true,

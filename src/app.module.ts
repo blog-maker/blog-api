@@ -10,9 +10,10 @@ import { BlogConfigModule } from './blog-config/blog-config.module';
 import { CoreModule } from './core/core.module';
 import { UserModule } from './user/user.module';
 import { RedirectSwaggerMiddleware } from './redirect-swagger.middleware';
+import { MailerConfigModule } from './mailer-config/mailer-config.module';
 
 @Module({
-  imports: [BlogConfigModule, AuthModule, CoreModule, UserModule],
+  imports: [BlogConfigModule, AuthModule, CoreModule, UserModule, MailerConfigModule],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

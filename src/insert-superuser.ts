@@ -18,5 +18,9 @@ const superUser = {
 export const insertSuperUser = async (app: INestApplication) => {
   const userService = app.get(UserService);
 
-  await userService.createSuperUserIfNotExists(superUser);
+  try {
+    await userService.createSuperUserIfNotExists(superUser);
+  } catch (error) {
+    console.error(error);
+  }
 };

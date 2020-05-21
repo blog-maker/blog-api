@@ -1,5 +1,17 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
+export interface DocumentDto {
+  _id: string;
+}
+
+export class TimestampDto {
+  @ApiPropertyOptional()
+  createdAt: Date;
+
+  @ApiPropertyOptional()
+  updatedAt: Date;
+}
+
 export class CustomAttributeDto {
   @ApiProperty()
   name: string;
@@ -8,7 +20,7 @@ export class CustomAttributeDto {
   value: string;
 }
 
-export class BaseDto {
+export class BaseDto extends TimestampDto implements DocumentDto {
   @ApiProperty()
   _id: string;
 
@@ -20,10 +32,4 @@ export class BaseDto {
 
   @ApiPropertyOptional()
   extensionsAttributes?: any;
-
-  @ApiPropertyOptional()
-  createdAt: Date;
-
-  @ApiPropertyOptional()
-  updatedAt: Date;
 }

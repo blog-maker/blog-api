@@ -8,6 +8,7 @@ export const enableSwagger = (app: INestApplication) => {
     .setVersion('1.0')
     .addTag('auth')
     .addTag('users')
+    .addTag('mailer-config')
     .setContact(
       'Bruno Xavier',
       'https://github.com/brunoSpeedrun',
